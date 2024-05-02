@@ -21,10 +21,6 @@ const userRouter = require("./routes/user.js");
 
 const dbUrl = process.env.ATLASDB_URL;
 
-
-// const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
-
-
 main()
 .then(() => {
     console.log("connected to DB");
@@ -35,7 +31,6 @@ main()
 
 async function main() {
     await mongoose.connect(dbUrl);
-    // await mongoose.connect(MONGO_URL);
 }
 
 app.set("view engine", "ejs");
@@ -65,17 +60,10 @@ const sessionOptions = {
     saveUninitialized: true,
     cookie: {
         expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
-        // milisecond mei likhte h= ham chahte h ki 1 week baad cookie
-        // expire ho jaay to-->week,ek week  7*24
-        // ghante  ke liye 24*60 ,minut ke liye=60*60 ,har secon ke andr milisecond =1000 
         maxAge: 7 * 24 * 60 * 60 * 1000,
         httpOnly: true,
     },
 };
-
-// app.get("/", (req, res) => {
-//     res.send("Hi, i am root");
-// });
 
 app.use(session(sessionOptions));
 app.use(flash());
@@ -93,15 +81,6 @@ app.use((req, res, next) => {
     res.locals.currUser = req.user;
     next();
 });
-
-// app.get("/demouser", async (req, res) =>{
-//     let fakeUser = new User({
-//         email: "rahul@gmail.com",
-//         username: "rahul",
-//     });
-//       let registeredUser = await User.register(fakeUser, "helloworld");
-//       res.send(registeredUser);
-// });
 
 
 app.use("/listings", listingRouter);
